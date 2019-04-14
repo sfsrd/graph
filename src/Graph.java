@@ -5,6 +5,8 @@ import java.util.Stack;
 
 public class Graph {
 
+
+
     private int vertices;
 
     private LinkedList<LinkedList<Integer>> listOfEdges;
@@ -16,7 +18,6 @@ public class Graph {
                                             from -> to, to
                                             */
 
-
     public Graph(int v) {
         vertices = v;
 
@@ -25,7 +26,13 @@ public class Graph {
             listOfEdges.push(new LinkedList<Integer>());
     }
 
-    public void addEdge(int from, int to) {
+    public int getVerticesCount() {
+        return vertices;
+    }
+
+    public void addEdge(int from, int to) throws EdgeAlreadyExistException{
+        if (listOfEdges.get(from).contains(to)) throw new EdgeAlreadyExistException(from, to);
+
         listOfEdges.get(from).add(to);
     }
 
@@ -55,9 +62,6 @@ public class Graph {
     public void removeVertex(int index){
         listOfEdges.remove(index);
     }
-
-
-
 
     public void depthFirstSearch(int pos) {
         boolean[] used = new boolean[listOfEdges.size()];
@@ -122,3 +126,22 @@ class EdgeNotFoundException extends Exception {
     private int from;
     private int to;
 }
+
+class EdgeAlreadyExistException extends Exception {
+    EdgeAlreadyExistException(int from, int to){
+        this.from = from;
+        this.to = to;
+    }
+
+    public int getFrom() {
+        return from;
+    }
+
+    public int getTo() {
+        return to;
+    }
+
+    private int from;
+    private int to;
+}
+
